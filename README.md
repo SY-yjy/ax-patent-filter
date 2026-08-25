@@ -23,20 +23,6 @@
 
 판정 순서는 **① 노이즈인가 → ② 유효 중에 이슈인가**이고, 그 과정 어디서든 판단이 안 서면 보류다.
 
-## 판정 기준 (`tasks/*.yaml`)
-```yaml
-version: 3
-task: 과제 한 줄 설명
-scope:     { definition: 무엇을 찾는 과제인지 }
-own_tech:  { materials: [], application: '', ranges: '' }   # 참고용, 판정에 안 쓴다
-synonyms:  [{ keyword: ..., terms: [...] }]                 # 특허마다 다른 표기를 흡수
-criteria:  [{ id: c_n1, label: noise|valid|issue|hold, when: 기준 문장 }]
-extract:   { collect: [원문에서 함께 뽑을 항목] }             # 판정과 별개
-```
-기준 문장에 근거 범위를 적으면(`독립청구항에`, `명세서 본문에`) 그 범위 밖은 근거가 되지 않는다.
-
-`tasks/_템플릿.yaml` 을 복사해 새 과제를 만든다.
-
 ## 모듈
 | 파일 | 역할 |
 |---|---|
@@ -58,16 +44,16 @@ extract:   { collect: [원문에서 함께 뽑을 항목] }             # 판정
 ```bash
 pip install -r requirements.txt
 streamlit run launch/app.py
+```
+과제 선택 · 엑셀 업로드 · 판정 실행 · 결과 내려받기까지 웹에서 한다.
+판정 기준도 웹에서 고친다(코딩 불필요).
 
-# CLI (회차 하나)
-python engine/pipeline.py "data/특허리스트.xlsx" 228회차 --task dod --limit 20 --excel
-
-# 중단된 실행 이어가기
-python engine/pipeline.py "data/특허리스트.xlsx" 228회차 --task dod --resume output/runs/<폴더>
-
-# 기준을 고친 뒤에는 반드시
+기준을 고친 뒤에는 규칙 회귀 테스트를 돌린다.
+```bash
 python tests/test_rules.py
 ```
+
+회차를 통째로 돌리는 CLI 도 있다 — `python engine/pipeline.py --help`
 
 ## 실측 (2026-08-21)
 - 청구항 추출 검증: **CN·JP·KR·US·EP 성공**. PCT는 스캔이미지 → 에이전트 판독으로 확보
