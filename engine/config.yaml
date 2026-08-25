@@ -1,0 +1,60 @@
+# 특허 필터링 AI — 설정 (값만 여기; 실행 로직·비밀키는 config.py / .env)
+# 이 파일만 고치면 모델·백엔드·경로·단가·컬럼매핑이 바뀐다.
+
+models:
+  judge: claude-opus-4-8      # 전 건 원문 판정 (단일 단계)
+
+backend:
+  # subscription = 구독(Agent SDK, 로컬 Claude Code 인증) / api = API 키(per-token)
+  # 환경변수 AX_USE_API=1 이면 무조건 api 로 강제(config.py에서 처리)
+  default: subscription
+
+# 모델별 단가 ($/1M 토큰) — API 모드 비용 실측용
+prices:
+  claude-opus-4-8: {input: 5.0, output: 25.0}
+
+limits:
+  max_claim_chars: 12000      # 판정에 넣는 청구항 상한(토큰 폭주 방지)
+  scan_max_turns: 25          # 스캔 PDF 판독 시 에이전트 최대 턴
+
+features:
+  # 스캔 이미지 PDF를 에이전트가 직접 읽어 청구항을 전사한다(별도 OCR 엔진 불필요).
+  # 결과는 output/pdf/<on_key>.claims.txt 에 캐시 → 특허당 1회만 비용 발생.
+  # 실측: 231,517토큰 · 68초/건 (텍스트 PDF의 약 60배). 끄면 엑셀 대표청구항 폴백.
+  scan_read: true
+
+  # 에이전트 사고 과정(thinking) 블록 요청.
+  # ⚠️ 실측(2026-08-21): ThinkingBlock 은 오지만 .thinking 이 **빈 문자열**이라 화면에
+  #    보여줄 내용이 없고, 시간만 9초 → 28.6초로 늘어난다. 그래서 기본 false.
+  #    실시간 표시는 include_partial_messages 기반 토큰 델타로 한다(항상 켜짐).
+  show_thinking: false
+
+wips:
+  base: https://sd.wips.co.kr/wipslink/api
+  biblio_ep: dcndshtm.wips           # 서지 페이지 (skey)
+  pdf_ep: dwn_pdf_dsdirect.wips       # 원문 PDF (POST skey) → 래퍼 HTML
+  user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36"
+
+paths:   # ROOT(코드폴더) 기준 상대경로
+  data: data
+  output: output
+  pdf_cache: output/pdf
+  runs: output/runs                   # 실행별 결과(체크포인트) 폴더
+
+# 엑셀 컬럼 정규화 매핑 (정규화된 헤더명 → 표준 키). 회차별 표기 흔들림 흡수.
+# ⚠️ 값은 반드시 문자열로 인용할 것 — YAML 1.1은 no/yes/on/off 를 불리언으로 파싱한다.
+column_map:
+  번호: "no"
+  발명의명칭: title
+  요약: abstract
+  대표청구항: rep_claim
+  유효특허여부: valid
+  이슈특허여부: issue
+  이슈여부: issue
+  이슈사유: issue_reason
+  국가코드: country
+  WIPSONkey: on_key
+  출원번호: app_no
+  공개번호: pub_no
+  대분류: cat1
+  중분류: cat2

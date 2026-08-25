@@ -1,0 +1,21 @@
+# 비밀 — 절대 커밋 금지
+.env
+
+# 자사 기술·심사 기준이 담긴 실제 과제 파일 (템플릿만 공유한다)
+tasks/dod.yaml
+
+# 특허 데이터·산출물 (민감/대용량 → GitHub에 안 올림)
+data/
+output/
+*.xlsx
+*.xls
+
+# 파이썬
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*_env/
+
+# OS
+.DS_Store

@@ -1,0 +1,56 @@
+# 테마 — Pantone 2756 C 기반
+#   Pantone 2756 C = #151F6D (RGB 21,31,109) — 확인 2026-08-21
+#   (공식 pantone.com 은 구독 필요로 값 비공개 → colorxs·icolorpalette 등 변환 소스 일치)
+#
+# 팔레트 (2756 C 에서 파생)
+#   #151F6D  brand      본색 — 헤더·주요 버튼
+#   #2A3A9E  brand-600  밝은 변형 — 링크·강조
+#   #4A5CC4  brand-400  보조
+#   #E7EAF6  brand-050  카드·확장패널 배경
+#   #F5F7FC  brand-025  가장 옅은 면
+# 판정 등급 색은 의미색이라 그대로 둔다(이슈 빨강·유효 초록·보류 주황·노이즈 회색).
+
+[theme]
+base = "light"
+primaryColor = "#151F6D"                # 주요 버튼·포커스 = 2756 C 본색
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F5F7FC"    # 카드·확장패널 면
+textColor = "#101538"                   # 본문 (2756 C 계열 먹색)
+linkColor = "#2A3A9E"
+borderColor = "#D3D9EC"
+dataframeHeaderBackgroundColor = "#E7EAF6"
+dataframeBorderColor = "#D3D9EC"
+codeBackgroundColor = "#F5F7FC"
+codeTextColor = "#151F6D"
+baseRadius = "0.625rem"
+buttonRadius = "0.625rem"
+
+# 타이포 — 한글 가독성용 Pretendard.
+# ⚠️ CSS 로는 못 넣는다: st.html/st.markdown 은 DOMPurify 로 살균되고 <link> 태그가 차단된다
+#    (실측 2026-08-21: 허용 태그 목록에 style 은 있고 link·meta 는 없음).
+#    theme.font 의 "이름:URL" 형식은 서버가 직접 내려주므로 살균 대상이 아니다.
+font = "Pretendard Variable:https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css, sans-serif"
+headingFont = "Pretendard Variable:https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css, sans-serif"
+baseFontSize = 16
+baseFontWeight = 400
+headingFontSizes = ["2.1rem", "1.55rem", "1.22rem", "1.05rem", "0.95rem", "0.88rem"]
+headingFontWeights = [800, 750, 700, 700, 650, 650]
+
+# 판정 등급 의미색 — Streamlit 내장 색 토큰을 등급에 맞춰 조정
+redColor = "#C5221F"                    # 이슈
+redBackgroundColor = "#FCE8E6"
+greenColor = "#137333"                  # 유효
+greenBackgroundColor = "#E6F4EA"
+orangeColor = "#B06000"                 # 보류
+orangeBackgroundColor = "#FEF7E0"
+grayColor = "#5F6368"                   # 노이즈
+grayBackgroundColor = "#EFEFEF"
+blueColor = "#2A3A9E"
+blueBackgroundColor = "#E7EAF6"
+
+[server]
+enableStaticServing = true
+headless = true
+
+[browser]
+gatherUsageStats = false

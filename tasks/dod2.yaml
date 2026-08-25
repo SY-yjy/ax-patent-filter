@@ -1,0 +1,40 @@
+version: 3
+task: '(과제 한 줄 설명 — 예: OLED 봉지재 — 수분투습 차단 접착제)'
+scope:
+  definition: (무엇을 찾는 과제인지 한두 문장. AI가 가장 먼저 읽는 문장이다.)
+own_tech:
+  materials: []
+  application: ''
+  ranges: ''
+synonyms:
+- keyword: (기준 문장에서 쓰는 말)
+  terms:
+  - (같은 뜻으로 볼 표기)
+criteria:
+- id: h_판단불가
+  label: hold
+  hold_code: 근거_불충분
+  when: '(예: 핵심 조성이 이미지·구조식으로만 제공되어 텍스트로 확인할 수 없다)'
+  review: (연구원이 확인할 것)
+- id: n_대상아님
+  label: noise
+  when: '(예: 이 과제의 대상 요소가 전혀 없다)'
+- id: v_제외_한정
+  label: valid
+  when: '(예: 독립청구항이 자사 소재 이외로만 한정된다 — 이슈에서 제외)'
+- id: i_중첩
+  label: issue
+  when: '(예: 독립청구항이 대상 요소를 포함하고 핵심 기능을 청구하며 자사 소재를 포괄한다)'
+  review: '(예: 함량·구조 범위 중첩 여부 확인 필요)'
+- id: h_범위불명
+  label: hold
+  hold_code: 청구범위_불명확
+  when: '(예: 독립청구항이 광범위해 자사 소재 포함 여부를 판단할 수 없다)'
+  review: 독립청구항의 필수 구성요소를 확인해야 한다
+- id: v_관련
+  label: valid
+  when: '(예: 이 과제와 기술적 관련성이 있다 — 포괄 기준이므로 맨 아래)'
+extract:
+  collect:
+  - '(예: 핵심 물성값)'
+  - '(예: 소재 종류)'

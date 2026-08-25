@@ -1,0 +1,9 @@
+pandas>=2.0         # 엑셀 로딩(경로/업로드) · 결과표
+openpyxl>=3.1       # xlsx 엔진 · 결과 엑셀 다운로드
+PyYAML>=6.0         # config.yaml · criteria.yaml 로드
+requests>=2.31      # WIPS PDF 다운로드
+pypdf>=4.0          # PDF 텍스트 추출
+anthropic>=0.40     # Claude API (판정 에이전트, API 모드)
+claude-agent-sdk>=0.2  # 구독 모드(로컬 Claude Code 인증)
+python-dotenv>=1.0  # .env 에서 API 키 로드
+streamlit>=1.40     # 데모 UI
